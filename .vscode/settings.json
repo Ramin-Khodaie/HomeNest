@@ -2,6 +2,7 @@
 {
     "conventionalCommits.scopes": [
         "components",
-        "screen"
+        "screen",
+        "signIn"
     ]
 }

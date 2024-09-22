@@ -8,8 +8,7 @@ export const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: 'center',
         justifyContent: 'center',
-        gap: 32,
-        backgroundColor: 'white',
+        gap: 32,        
         padding: 16
     },
     image: {

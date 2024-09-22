@@ -7,15 +7,23 @@ import Button from '../../../components/Button';
 import {styles} from './styles';
 import GoogleButton from '../../../components/GoogleButton';
 import {SubmitHandler, useForm, Controller} from 'react-hook-form';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {AuthStackParamList} from '../../../../App';
+import { useAuth } from '../../../context/auth';
+
+
+type Props = NativeStackScreenProps<AuthStackParamList, 'SignIn'>;
 
 type SignInFormProps = {
   email: string;
   password: string;
 };
 
-interface SignInProps {}
+interface SignInProps extends Props {}
 
-const SignIn: React.FC<SignInProps> = () => {
+const SignIn = ({navigation, route}: Props) => {
+  const {onSignIn} = useAuth();
+
   const {
     control,
     handleSubmit,
@@ -28,12 +36,15 @@ const SignIn: React.FC<SignInProps> = () => {
   });
 
   const onSubmit: SubmitHandler<SignInFormProps> = data => {
-    console.log(data);
+    route.params.onSignIn?.()
   };
 
   return (
     <View style={styles.container}>
-      <AuthHeader title="Sign In" onBack={() => {}} />
+      <AuthHeader
+        title="Sign In"
+        onBack={() => navigation.navigate('Splash', {})}
+      />
       <View style={styles.form}>
         <Controller
           control={control}
@@ -60,12 +71,13 @@ const SignIn: React.FC<SignInProps> = () => {
               value={value}
               password
               onChange={onChange}
-              error = {Boolean(errors.password)}
+              error={Boolean(errors.password)}
             />
           )}
         />
         <View style={styles.bottom}>
           <Button title="Sign in" onPress={handleSubmit(onSubmit)} />
+          
           <View style={styles.signinWith}>
             <View style={styles.line} />
             <Text style={styles.signUpWithText}>Or Sign up with</Text>

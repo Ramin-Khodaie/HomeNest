@@ -9,18 +9,21 @@ import CheckBox from '../../../components/CheckBox';
 import GoogleButton from '../../../components/GoogleButton';
 import {useForm, Controller, SubmitHandler} from 'react-hook-form';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../../../App';
-
-type Props = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
+import {AuthStackParamList} from '../../../../App';
+import {useAuth} from '../../../context/auth';
 
 type SignUpFormProps = {
   name: string;
   email: string;
   password: string;
 };
-interface SignUpProps {}
+interface SignUpProps {
+  onSignUp: () => {};
+}
+type Props = NativeStackScreenProps<AuthStackParamList, 'SignUp'>;
 
-const SignUp = ({navigation}: Props) => {
+const SignUp = ({navigation, route}: Props) => {
+  const {onSignIn} = useAuth();
   const {
     control,
     handleSubmit,
@@ -33,7 +36,7 @@ const SignUp = ({navigation}: Props) => {
   });
 
   const onSubmit: SubmitHandler<SignUpFormProps> = data => {
-    console.log(data);
+    route.params.onSignIn?.();
   };
 
   return (
@@ -103,7 +106,12 @@ const SignUp = ({navigation}: Props) => {
           </View>
           <GoogleButton onPress={() => {}} />
           <Text style={styles.already}>
-            Already have an account? <Text style={styles.signIn}>Sing In</Text>
+            Already have an account?{' '}
+            <Text
+              style={styles.signIn}
+              onPress={() => navigation.navigate('SignIn', {onSignIn() {}})}>
+              Sing In
+            </Text>
           </Text>
         </View>
       </View>

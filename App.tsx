@@ -5,39 +5,105 @@
  * @format
  */
 
-import React from 'react';
-import {StyleSheet} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import React, {useState} from 'react';
 
-import Splash from './src/screens/auth/Splash';
-import SignUp from './src/screens/auth/Signup';
-import SignIn from './src/screens/auth/Signin';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
+import Splash from './src/screens/auth/Splash';
+import SignIn from './src/screens/auth/Signin';
+import SignUp from './src/screens/auth/Signup';
+import Home from './src/screens/app/Home';
+import {colors} from './src/utils/colors';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Bookmarks from './src/screens/app/Bookmarks';
+import Profile from './src/screens/app/Profile';
+import {AuthProvider, useAuth} from './src/context/auth';
 
-export type RootStackParamList = {
+Ionicons.loadFont();
+
+export type AuthStackParamList = {
   Splash: {};
-  SignIn: {};
-  SignUp: {};
+  SignIn: {onSignIn?: () => void};
+  SignUp: {onSignIn?: () => void};
 };
 
-const RootStack = createNativeStackNavigator<RootStackParamList>();
+export type AppStackParamList = {
+  Home: {};
+  Bookmark: {};
+  Profile: {};
+};
+
+const AuthStack = createNativeStackNavigator<AuthStackParamList>();
+const AppStack = createNativeStackNavigator<AuthStackParamList>();
+
+const Tab = createBottomTabNavigator<AppStackParamList>();
 
 function App(): React.JSX.Element {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
+  const handleSignIn = () => {
+    setIsSignedIn(true);
+  };
+  const theme = {
+    ...DefaultTheme,
+    colors: {
+      background: colors.white,
+      primary: '',
+      card: '',
+      text: '',
+      border: '',
+      notification: '',
+    },
+  };
+
   return (
-    <NavigationContainer>
-      <RootStack.Navigator initialRouteName="SignIn">
-        <RootStack.Screen
-          name="Splash"
-          component={Splash}
-          options={{title: ''}}
-        />
-        <RootStack.Screen name="SignUp" component={SignUp} />
-        <RootStack.Screen name="SignIn" component={SignIn} />
-      </RootStack.Navigator>
-    </NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer theme={theme}>
+        {isSignedIn ? (
+          <Tab.Navigator
+            screenOptions={({route}) => ({
+              tabBarIcon: ({focused, color, size}) => {
+                let iconName = '';
+                if (route.name === 'Home') {
+                  iconName = focused ? 'home' : 'home-outline';
+                }
+                if (route.name === 'Bookmark') {
+                  iconName = focused ? 'bookmark' : 'bookmark-outline';
+                }
+                if (route.name === 'Profile') {
+                  iconName = focused
+                    ? 'person-circle'
+                    : 'person-circle-outline';
+                }
+
+                return <Ionicons name={iconName} size={size} color={color} />;
+              },
+              tabBarActiveTintColor: 'tomato',
+              tabBarInactiveTintColor: 'gray',
+            })}>
+            <Tab.Screen name="Home" component={Home} />
+            <Tab.Screen name="Bookmark" component={Bookmarks} />
+            <Tab.Screen name="Profile" component={Profile} />
+          </Tab.Navigator>
+        ) : (
+          <AuthStack.Navigator
+            initialRouteName="Splash"
+            screenOptions={{
+              headerShown: false,
+            }}>
+            <AuthStack.Screen name={'Splash'} component={Splash} />
+            <AuthStack.Screen
+              name={'SignIn'}
+              component={SignIn}
+              initialParams={{onSignIn: handleSignIn}}
+            />
+            <AuthStack.Screen name={'SignUp'} component={SignUp} />
+          </AuthStack.Navigator>
+        )}
+      </NavigationContainer>
+    </AuthProvider>
   );
 }
-
-const styles = StyleSheet.create({});
 
 export default App;

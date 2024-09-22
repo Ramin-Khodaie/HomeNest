@@ -1,14 +1,14 @@
 import React from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Image, Pressable, Text, TouchableOpacity, View} from 'react-native';
 
 import {styles} from './styles';
 import Button from '../../../components/Button';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../../../App';
+import {AuthStackParamList} from '../../../../App';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Splash'>;
+type SplashScreenProps = NativeStackScreenProps<AuthStackParamList, 'Splash'>;
 
-const Splash = ({navigation}: Props) => {
+const Splash = ({navigation}: SplashScreenProps) => {
   return (
     <View style={styles.container}>
       <Image
@@ -26,6 +26,9 @@ const Splash = ({navigation}: Props) => {
         title="Sign up"
         onPress={() => navigation.navigate('SignUp', {})}
       />
+      <Pressable onPress={()=>navigation.navigate('SignIn', {})}>
+        <Text style={styles.signInText}>Sign in</Text>
+      </Pressable>
     </View>
   );
 };
