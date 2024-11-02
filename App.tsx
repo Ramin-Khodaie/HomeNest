@@ -19,6 +19,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Bookmarks from './src/screens/app/Bookmarks';
 import Profile from './src/screens/app/Profile';
 import {AuthProvider, useAuth} from './src/context/auth';
+import {StyleSheet, Text, View} from 'react-native';
 
 Ionicons.loadFont();
 
@@ -35,16 +36,44 @@ export type AppStackParamList = {
 };
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
-const AppStack = createNativeStackNavigator<AuthStackParamList>();
+const AppStack = createNativeStackNavigator();
 
 const Tab = createBottomTabNavigator<AppStackParamList>();
 
-function App(): React.JSX.Element {
-  const [isSignedIn, setIsSignedIn] = useState(false);
+const Tabs = () => {
+  return (
+    <Tab.Navigator
+      screenOptions={({route}) => ({
+        tabBarIcon: ({focused, color, size}) => {
+          let iconName = '';
+          if (route.name === 'Home') {
+            iconName = focused ? 'home' : 'home-outline';
+          }
+          if (route.name === 'Bookmark') {
+            iconName = focused ? 'bookmark' : 'bookmark-outline';
+          }
+          if (route.name === 'Profile') {
+            iconName = focused ? 'person-circle' : 'person-circle-outline';
+          }
 
-  const handleSignIn = () => {
-    setIsSignedIn(true);
-  };
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+
+        tabBarShowLabel: false,
+        headerShown: false,
+        tabBarStyle: {borderTopWidth: 0, backgroundColor: colors.white},
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: 'gray',
+      })}>
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Bookmark" component={Bookmarks} />
+      <Tab.Screen name="Profile" component={Profile} />
+    </Tab.Navigator>
+  );
+};
+const AppNavigation = () => {
+  const {isSignedIn} = useAuth();
+
   const theme = {
     ...DefaultTheme,
     colors: {
@@ -58,50 +87,34 @@ function App(): React.JSX.Element {
   };
 
   return (
-    <AuthProvider>
-      <NavigationContainer theme={theme}>
-        {isSignedIn ? (
-          <Tab.Navigator
-            screenOptions={({route}) => ({
-              tabBarIcon: ({focused, color, size}) => {
-                let iconName = '';
-                if (route.name === 'Home') {
-                  iconName = focused ? 'home' : 'home-outline';
-                }
-                if (route.name === 'Bookmark') {
-                  iconName = focused ? 'bookmark' : 'bookmark-outline';
-                }
-                if (route.name === 'Profile') {
-                  iconName = focused
-                    ? 'person-circle'
-                    : 'person-circle-outline';
-                }
+    <NavigationContainer theme={theme}>
+      {isSignedIn ? (
+        <AppStack.Navigator>
+          <AppStack.Screen
+            name="Tabs"
+            component={Tabs}
+            options={{headerShown: false}}
+          />
+        </AppStack.Navigator>
+      ) : (
+        <AuthStack.Navigator
+          initialRouteName="Splash"
+          screenOptions={{
+            headerShown: false,
+          }}>
+          <AuthStack.Screen name={'Splash'} component={Splash} />
+          <AuthStack.Screen name={'SignIn'} component={SignIn} />
+          <AuthStack.Screen name={'SignUp'} component={SignUp} />
+        </AuthStack.Navigator>
+      )}
+    </NavigationContainer>
+  );
+};
 
-                return <Ionicons name={iconName} size={size} color={color} />;
-              },
-              tabBarActiveTintColor: 'tomato',
-              tabBarInactiveTintColor: 'gray',
-            })}>
-            <Tab.Screen name="Home" component={Home} />
-            <Tab.Screen name="Bookmark" component={Bookmarks} />
-            <Tab.Screen name="Profile" component={Profile} />
-          </Tab.Navigator>
-        ) : (
-          <AuthStack.Navigator
-            initialRouteName="Splash"
-            screenOptions={{
-              headerShown: false,
-            }}>
-            <AuthStack.Screen name={'Splash'} component={Splash} />
-            <AuthStack.Screen
-              name={'SignIn'}
-              component={SignIn}
-              initialParams={{onSignIn: handleSignIn}}
-            />
-            <AuthStack.Screen name={'SignUp'} component={SignUp} />
-          </AuthStack.Navigator>
-        )}
-      </NavigationContainer>
+function App(): React.JSX.Element {
+  return (
+    <AuthProvider>
+      <AppNavigation />
     </AuthProvider>
   );
 }

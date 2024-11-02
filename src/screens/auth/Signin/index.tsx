@@ -21,8 +21,9 @@ type SignInFormProps = {
 
 interface SignInProps extends Props {}
 
-const SignIn = ({navigation, route}: Props) => {
-  const {onSignIn} = useAuth();
+const SignIn = ({navigation, route}: SignInProps) => {
+  const {onSignIn, isSignedIn} = useAuth();
+  console.log("🚀 ~ file: index.tsx:26 ~ SignIn ~ isSignedIn:", isSignedIn)
 
   const {
     control,
@@ -36,7 +37,8 @@ const SignIn = ({navigation, route}: Props) => {
   });
 
   const onSubmit: SubmitHandler<SignInFormProps> = data => {
-    route.params.onSignIn?.()
+    // route.params.onSignIn?.();
+    onSignIn();
   };
 
   return (
@@ -77,7 +79,7 @@ const SignIn = ({navigation, route}: Props) => {
         />
         <View style={styles.bottom}>
           <Button title="Sign in" onPress={handleSubmit(onSubmit)} />
-          
+
           <View style={styles.signinWith}>
             <View style={styles.line} />
             <Text style={styles.signUpWithText}>Or Sign up with</Text>
