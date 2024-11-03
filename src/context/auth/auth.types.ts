@@ -1,4 +1,8 @@
+import { Dispatch, SetStateAction } from "react";
+
 export type AuthContext = {
-    isSignedIn: boolean,
-    onSignIn:()=>void
-}
+  user: {
+    token: string;
+  } | null;
+    setUser: Dispatch<SetStateAction<{token: string} | null>>;
+};

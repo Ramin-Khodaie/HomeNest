@@ -1,16 +1,16 @@
 import React from 'react';
 import {Text, View} from 'react-native';
-import Input from '../../../components/Input';
-import AuthHeader from '../../../components/AuthHeader';
-import Button from '../../../components/Button';
 
 import {styles} from './styles';
-import GoogleButton from '../../../components/GoogleButton';
 import {SubmitHandler, useForm, Controller} from 'react-hook-form';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {AuthStackParamList} from '../../../../App';
-import { useAuth } from '../../../context/auth';
 
+import {useAuth} from 'context/auth';
+import {AuthStackParamList} from 'types';
+import AuthHeader from 'components/AuthHeader';
+import Button from 'components/Button';
+import GoogleButton from 'components/GoogleButton';
+import Input from 'components/Input';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'SignIn'>;
 
@@ -22,8 +22,7 @@ type SignInFormProps = {
 interface SignInProps extends Props {}
 
 const SignIn = ({navigation, route}: SignInProps) => {
-  const {onSignIn, isSignedIn} = useAuth();
-  console.log("🚀 ~ file: index.tsx:26 ~ SignIn ~ isSignedIn:", isSignedIn)
+  const {setUser} = useAuth();
 
   const {
     control,
@@ -37,8 +36,7 @@ const SignIn = ({navigation, route}: SignInProps) => {
   });
 
   const onSubmit: SubmitHandler<SignInFormProps> = data => {
-    // route.params.onSignIn?.();
-    onSignIn();
+    setUser({token: `${data.email}`});
   };
 
   return (
