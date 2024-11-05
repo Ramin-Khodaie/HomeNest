@@ -9,8 +9,8 @@ import CheckBox from '../../../components/CheckBox';
 import GoogleButton from '../../../components/GoogleButton';
 import {useForm, Controller, SubmitHandler} from 'react-hook-form';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {AuthStackParamList} from '../../../../App';
 import {useAuth} from '../../../context/auth';
+import { AuthStackParamList } from 'src/navigation/auth-navigator';
 
 type SignUpFormProps = {
   name: string;
@@ -23,7 +23,7 @@ interface SignUpProps {
 type Props = NativeStackScreenProps<AuthStackParamList, 'SignUp'>;
 
 const SignUp = ({navigation, route}: Props) => {
-  const {onSignIn} = useAuth();
+  const {setUser} = useAuth();
   const {
     control,
     handleSubmit,

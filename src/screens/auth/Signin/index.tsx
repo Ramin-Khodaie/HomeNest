@@ -4,13 +4,12 @@ import {Text, View} from 'react-native';
 import {styles} from './styles';
 import {SubmitHandler, useForm, Controller} from 'react-hook-form';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-
-import {useAuth} from 'context/auth';
-import {AuthStackParamList} from 'types';
-import AuthHeader from 'components/AuthHeader';
-import Button from 'components/Button';
-import GoogleButton from 'components/GoogleButton';
-import Input from 'components/Input';
+import {useAuth} from '../../../context/auth';
+import {AuthStackParamList} from '../../../navigation/auth-navigator';
+import AuthHeader from '../../../components/AuthHeader';
+import Input from '../../../components/Input';
+import Button from '../../../components/Button';
+import GoogleButton from '../../../components/GoogleButton';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'SignIn'>;
 

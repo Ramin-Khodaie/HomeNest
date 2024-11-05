@@ -10,7 +10,6 @@ const AppStack = createNativeStackNavigator();
 
 const AppNavigation = () => {
   const {user} = useAuth();
-  console.log("🚀 ~ file: app-navigator.tsx:13 ~ AppNavigation ~ user:", user)
 
   const theme = {
     ...DefaultTheme,

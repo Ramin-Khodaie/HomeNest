@@ -1,8 +1,6 @@
 import React from 'react';
 import {Pressable, Text, View} from 'react-native';
 
-// import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-
 import {styles} from './styles';
 import {AntIcon} from '../AntIcon';
 import {colors} from '../../utils/colors';
