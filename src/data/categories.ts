@@ -3,7 +3,7 @@ export const categories = [
     id: 0,
     title: 'Popular',
     image:
-      'https://static8.depositphotos.com/1338574/831/i/600/depositphotos_8318731-stock-photo-gold-star.jpg',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQde_gFaEfIsq8QRaiaqh_ZY_JT4XsyVv61si0YC2dWr3KseTziwVVLvX_2drLA9m7VGzk&usqp=CAU',
   },
   {
     id: 1,

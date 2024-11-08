@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center',    
   },
   image: {
     width: 32,

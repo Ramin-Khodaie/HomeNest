@@ -1,16 +1,24 @@
 import {StyleSheet} from 'react-native';
-import {colors} from '../../../utils/colors';
 
 const styles = StyleSheet.create({
-  text: {
-    color: colors.black,
-  },
   categories: {
     flexDirection: 'row',
     gap: 16,
   },
-  list: {    
+  list: {
     marginTop: 16,
+    display: 'flex',
+  },
+  content: {
+    gap: 16,
+    paddingHorizontal: 24,
+  },
+  products: {
+    paddingTop: 16,
+    paddingHorizontal: 16,
+  },
+  row: {
+    justifyContent: 'space-between',
   },
 });
 
