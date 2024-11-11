@@ -1,7 +1,8 @@
 import React from 'react';
+import { Text } from 'react-native';
 
 const CreateListing = () => {
-  return <div>CreateListing</div>;
+  return <Text>CreateListing</Text>;
 };
 
 export {CreateListing};

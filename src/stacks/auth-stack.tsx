@@ -1,17 +1,9 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Splash from '../screens/auth/Splash';
 import SignIn from '../screens/auth/Signin';
 import SignUp from '../screens/auth/Signup';
+import {AuthStack} from '../types';
 
-export type AuthStackParamList = {
-  Splash: {};
-  SignIn: {onSignIn?: () => void};
-  SignUp: {onSignIn?: () => void};
-};
-
-const AuthStack = createNativeStackNavigator<AuthStackParamList>();
-
-const AuthNavigator = () => {
+const AuthScreenStack = () => {
   return (
     <AuthStack.Navigator
       initialRouteName="Splash"
@@ -25,4 +17,4 @@ const AuthNavigator = () => {
   );
 };
 
-export {AuthNavigator};
+export {AuthScreenStack};

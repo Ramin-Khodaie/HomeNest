@@ -10,14 +10,11 @@ import {Category} from '../../../types/category.types';
 import Product from '../../../components/Product';
 import {Product as ProductType} from '../../../types/product.types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {BottomTabParamList} from '../../../navigation/tab-navigator';
+import {HomeStackParams} from '../../../types';
 
-export type HomeScreenProps = NativeStackScreenProps<
-  BottomTabParamList,
-  'Home'
->;
+type Props = NativeStackScreenProps<HomeStackParams, 'Home'> & {};
 
-const Home = ({navigation}: HomeScreenProps) => {
+const Home = ({navigation}: Props) => {
   const [selected, setSelected] = useState(0);
   const [keyword, setKeyword] = useState('');
   const [filteredProducts, setFilteredProducts] = useState(products);
@@ -39,11 +36,9 @@ const Home = ({navigation}: HomeScreenProps) => {
   };
 
   const handlePressProduct = (product: ProductType) => {
-    console.log(
-      '🚀 ~ file: index.tsx:42 ~ handlePressProduct ~ product:',
-      product,
-    );
+    navigation.navigate('ProductDetail', {productId: product.id});
   };
+
   useEffect(() => {
     let updatedList;
     if (selected === 0 && !keyword) setFilteredProducts(products);

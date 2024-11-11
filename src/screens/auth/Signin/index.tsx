@@ -5,22 +5,20 @@ import {styles} from './styles';
 import {SubmitHandler, useForm, Controller} from 'react-hook-form';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useAuth} from '../../../context/auth';
-import {AuthStackParamList} from '../../../navigation/auth-navigator';
 import AuthHeader from '../../../components/AuthHeader';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 import GoogleButton from '../../../components/GoogleButton';
-
-type Props = NativeStackScreenProps<AuthStackParamList, 'SignIn'>;
+import {AuthStackParam} from '../../../types';
 
 type SignInFormProps = {
   email: string;
   password: string;
 };
 
-interface SignInProps extends Props {}
+type Props = NativeStackScreenProps<AuthStackParam, 'SignIn'> & {};
 
-const SignIn = ({navigation, route}: SignInProps) => {
+const SignIn = ({navigation}: Props) => {
   const {setUser} = useAuth();
 
   const {
@@ -42,7 +40,7 @@ const SignIn = ({navigation, route}: SignInProps) => {
     <View style={styles.container}>
       <AuthHeader
         title="Sign In"
-        onBack={() => navigation.navigate('Splash', {})}
+        onBack={() => navigation.navigate('Splash')}
       />
       <View style={styles.form}>
         <Controller

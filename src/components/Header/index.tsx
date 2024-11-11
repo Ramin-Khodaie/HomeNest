@@ -8,8 +8,8 @@ import Input from '../Input';
 
 type Props = {
   showBack?: boolean;
-  goBack?: () => void;
-  title: string;
+  onGoBack?: () => void;
+  title?: string;
   showLogout?: boolean;
   onLogout?: () => void;
   showSearch?: boolean;
@@ -19,7 +19,7 @@ type Props = {
 
 const Header: FC<Props> = ({
   showBack = false,
-  goBack,
+  onGoBack,
   title,
   showLogout = false,
   onLogout,
@@ -33,7 +33,7 @@ const Header: FC<Props> = ({
     <View style={Styles.mainContainer}>
       <View style={Styles.container}>
         {showBack && (
-          <Pressable onPress={goBack}>
+          <Pressable onPress={onGoBack}>
             <AntIcon size="large" color={colors.primary} name="arrowleft" />
           </Pressable>
         )}

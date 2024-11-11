@@ -1,20 +1,12 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {CreateListing} from '../screens/app/create-listing';
 import {Settings} from '../screens/app/settings';
 import Profile from '../screens/app/Profile';
 import {MyListings} from '../screens/app/my-listings';
+import {ProfileStack} from '../types';
 
-export type BottomTabParamList = {
-  Settings: {};
-  CreateListing: {};
-  Profile: {};
-  MyListings: {};
-};
-const ProfileStack = createNativeStackNavigator<BottomTabParamList>();
-
-const ProfileNavigator = () => {
+const ProfileScreenStack = () => {
   return (
-    <>
+    <ProfileStack.Navigator>
       <ProfileStack.Screen
         name="Profile"
         component={Profile}
@@ -35,8 +27,8 @@ const ProfileNavigator = () => {
         component={MyListings}
         options={{headerShown: false}}
       />
-    </>
+    </ProfileStack.Navigator>
   );
 };
 
-export {ProfileNavigator};
+export {ProfileScreenStack};

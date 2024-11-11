@@ -1,55 +1,46 @@
-import {
-  NativeStackNavigationEventMap,
-  NativeStackNavigationOptions,
-  createNativeStackNavigator,
-} from '@react-navigation/native-stack';
-import Home from '../screens/app/Home';
-import Bookmarks from '../screens/app/Bookmarks';
-import Profile from '../screens/app/Profile';
-import {
-  ParamListBase,
-  RouteConfig,
-  StackNavigationState,
-} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {NavigatorScreenParams} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-export type AppStackParamList = {
-  Home: {};
-  Bookmarks: {};
-  Profile: {};
+// Auth Stack
+export type AuthStackParam = {
+  Splash: undefined;
+  SignIn: undefined;
+  SignUp: undefined;
+};
+export const AuthStack = createNativeStackNavigator<AuthStackParam>();
+
+// Profile Stack
+export type ProfileStackParams = {
+  Profile: undefined;
+  MyListings: {
+    name: string;
+  };
+  Settings: undefined;
+  CreateListing: undefined;
+};
+export const ProfileStack = createNativeStackNavigator<ProfileStackParams>();
+
+// Home Stack
+export type HomeStackParams = {
+  Home: undefined;
+  ProductDetail: {
+    productId: number;
+  };
 };
 
-export type AuthStackParamList = {
-  Splash: {};
-  SignIn: {};
-  SignUp: {};
+export const HomeStack = createNativeStackNavigator<HomeStackParams>();
+
+// App Stack
+export type TabStackParam = {
+  HomeStack: NavigatorScreenParams<HomeStackParams>;
+  Bookmarks: undefined;
+  ProfileStack: NavigatorScreenParams<ProfileStackParams>;
+};
+export const TabStack = createBottomTabNavigator<TabStackParam>();
+
+export type RootStackParams = {
+  Tabs: undefined;
 };
 
-// generic stack routes type
-export type StackRoutesType<ParamList extends ParamListBase> = Array<
-  RouteConfig<
-    ParamList,
-    keyof ParamList,
-    StackNavigationState<ParamList>,
-    NativeStackNavigationOptions,
-    NativeStackNavigationEventMap
-  >
->;
-
-type AppStackRoutesType = StackRoutesType<AppStackParamList>;
-
-export const AppStack = createNativeStackNavigator<AppStackParamList>();
-
-export const appStackRoutes: AppStackRoutesType = [
-  {
-    name: 'Home',
-    component: Home,
-  },
-  {
-    name: 'Bookmarks',
-    component: Bookmarks,
-  },
-  {
-    name: 'Profile',
-    component: Profile,
-  },
-];
+export const RootStack = createNativeStackNavigator<RootStackParams>();
